@@ -27,7 +27,7 @@ const App: React.FC = () => {
   
   const [themePrompt, setThemePrompt] = useState('');
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const requestRef = useRef<number>();
+  const requestRef = useRef<number | null>(null);
 
   // Game physics state
   const birdRef = useRef<Bird>({ y: CANVAS_HEIGHT / 2, velocity: 0, rotation: 0 });
@@ -104,7 +104,7 @@ const App: React.FC = () => {
       pipesRef.current.push({ x: CANVAS_WIDTH, topHeight, passed: false });
     }
 
-    pipesRef.current.forEach((pipe, index) => {
+    pipesRef.current.forEach((pipe) => {
       pipe.x -= PIPE_SPEED;
 
       // Collision check: Pipes
@@ -217,7 +217,9 @@ const App: React.FC = () => {
 
   useEffect(() => {
     requestRef.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(requestRef.current!);
+    return () => {
+      if (requestRef.current) cancelAnimationFrame(requestRef.current);
+    };
   }, [loop]);
 
   const handleThemeChange = async (e: React.FormEvent) => {

@@ -26,8 +26,13 @@ export const getThemeFromAI = async (prompt: string): Promise<GameTheme> => {
     }
   });
 
+  const text = response.text;
+  if (!text) {
+    throw new Error("AI returned an empty response for theme generation.");
+  }
+
   try {
-    return JSON.parse(response.text.trim());
+    return JSON.parse(text.trim());
   } catch (e) {
     console.error("Failed to parse AI theme", e);
     throw e;
@@ -50,5 +55,5 @@ export const getCommentary = async (score: number, highScore: number): Promise<s
     }
   });
 
-  return response.text.trim();
+  return response.text?.trim() || "Nice try!";
 };
