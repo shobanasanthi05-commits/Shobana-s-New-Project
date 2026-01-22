@@ -26,13 +26,13 @@ const App: React.FC = () => {
   });
   
   const [themePrompt, setThemePrompt] = useState('');
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const requestRef = useRef<number | null>(null);
 
   // Game physics state
   const birdRef = useRef<Bird>({ y: CANVAS_HEIGHT / 2, velocity: 0, rotation: 0 });
   const pipesRef = useRef<Pipe[]>([]);
-  const frameCountRef = useRef(0);
+  const frameCountRef = useRef<number>(0);
 
   const resetGame = useCallback(() => {
     birdRef.current = { y: CANVAS_HEIGHT / 2, velocity: 0, rotation: 0 };
