@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { GameTheme, GameState, Bird, Pipe } from './types';
 import { 
@@ -216,7 +215,10 @@ const App: React.FC = () => {
   }, [update, draw]);
 
   useEffect(() => {
-    requestRef.current = requestAnimationFrame(loop);
+    // Only start the loop if canvasRef.current exists
+    if (canvasRef.current) {
+        requestRef.current = requestAnimationFrame(loop);
+    }
     return () => {
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
     };
@@ -245,7 +247,7 @@ const App: React.FC = () => {
           ref={canvasRef} 
           width={CANVAS_WIDTH} 
           height={CANVAS_HEIGHT}
-          className="bg-sky-400 cursor-pointer border-4 border-zinc-800"
+          className="bg-zinc-800 cursor-pointer border-4 border-zinc-700"
         />
         
         {/* Overlays */}
@@ -294,7 +296,7 @@ const App: React.FC = () => {
               value={themePrompt}
               onChange={(e) => setThemePrompt(e.target.value)}
               placeholder="Describe your theme..."
-              className="w-full bg-zinc-900 border border-zinc-600 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
+              className="w-full bg-zinc-900 border border-zinc-600 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition-all text-white"
               disabled={gameState.isAIThinking}
             />
             <button 
