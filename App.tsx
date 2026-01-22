@@ -215,10 +215,7 @@ const App: React.FC = () => {
   }, [update, draw]);
 
   useEffect(() => {
-    // Only start the loop if canvasRef.current exists
-    if (canvasRef.current) {
-        requestRef.current = requestAnimationFrame(loop);
-    }
+    requestRef.current = requestAnimationFrame(loop);
     return () => {
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
     };
@@ -242,17 +239,17 @@ const App: React.FC = () => {
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen p-4 gap-8 bg-zinc-900 overflow-auto">
       {/* Game Area */}
-      <div className="relative group shadow-2xl rounded-xl overflow-hidden" onClick={handleJump}>
+      <div className="relative group shadow-2xl rounded-xl overflow-hidden cursor-pointer" onClick={handleJump}>
         <canvas 
           ref={canvasRef} 
           width={CANVAS_WIDTH} 
           height={CANVAS_HEIGHT}
-          className="bg-zinc-800 cursor-pointer border-4 border-zinc-700"
+          className="bg-zinc-800 border-4 border-zinc-700"
         />
         
         {/* Overlays */}
         {gameState.status === 'START' && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 text-white p-6 text-center animate-pulse">
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 text-white p-6 text-center animate-pulse pointer-events-none">
             <h1 className="text-2xl font-bold mb-4">FLAPPY AI</h1>
             <p className="text-sm">CLICK or SPACE to Jump</p>
             <p className="mt-8 text-xs text-zinc-300">Theme: {theme.name}</p>
